@@ -56,23 +56,23 @@ class dialogComponent extends HTMLElement {
         this.elements.close.addEventListener("click", this.closeDialog.bind(this))
 
         if (this.dataset.title !== undefined) {
-            this.changeTitle(this.dataset.title)
+            this.setTitle(this.dataset.title)
         }
 
         if (this.dataset.body !== undefined) {
-            this.changeBody(this.dataset.body)
+            this.setBody(this.dataset.body)
         }
 
         if (this.innerHTML !== "") {
-            this.changeBody(this.innerHTML)
+            this.setBody(this.innerHTML)
         }
     }
 
-    changeTitle(title) {
+    setTitle(title) {
         this.elements.title.innerText = title
     }
 
-    changeBody(body) {
+    setBody(body) {
         this.elements.body.innerHTML = body
     }
 

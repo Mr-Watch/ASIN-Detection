@@ -51,13 +51,48 @@ class productURLComponent extends HTMLElement {
                 >error</i
                 >
                 <h2 class="message">
-                Sorry we didn't find product information at this URL.
+                    Sorry we didn't find product information at this URL.
                 </h2>
             </div>
         </div>`))
 
         this.elements = {}
+        this.elements.input = this.shadowRoot.querySelector("input")
+        this.elements.error = this.shadowRoot.querySelector(".error")
+        this.elements.message = this.shadowRoot.querySelector(".message")
+
+        this.hideError()
+        this.elements.input.addEventListener("input", this.setValidity.bind(this))
     }
+
+    setValidity() {
+        let validity = this.validateURL(this.elements.input.value);
+        if (this.elements.input.value === "" || validity) {
+            this.elements.input.setCustomValidity("")
+            this.hideError()
+        } else {
+            this.elements.input.setCustomValidity("The url is invalid")
+            this.setMessage("This url is not valid")
+            this.showError()
+        }
+    }
+
+    setMessage(message) {
+        this.elements.message.innerText = message;
+    }
+
+    hideError() {
+        this.elements.error.style.visibility = "hidden"
+    }
+
+    showError() {
+        this.elements.error.style.visibility = ""
+    }
+
+    validateURL(url) {
+        return /^https:\/\/www\.amazon\.com\/.*dp\/[A-Z|0-9]{10}\/{0,1}.*/gm.test(url)
+    }
+
 }
 
 customElements.define("product-url-component", productURLComponent)

@@ -6,9 +6,6 @@ class productComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    this.defaultImageURl = ""
-    this.defaultProductName = ""
-
     this.attachShadow({ mode: "open" })
 
     this.shadowRoot.appendChild(stringToLinkNode("https://fonts.googleapis.com/icon?family=Material+Icons"))
@@ -39,7 +36,7 @@ class productComponent extends HTMLElement {
 
     this.shadowRoot.appendChild(stringToNode(`
         <div class="product">
-          <img src="${this.defaultImageURl}" alt="product image" />
+          <img src="" alt="product image" />
         <i
         class="material-icons"
         style="font-size: 50px;
@@ -49,7 +46,6 @@ class productComponent extends HTMLElement {
         >check_circle</i>
         <div>
           <p>
-            ${this.defaultProductName}
           </p>
           <h3>This is a valid product</h3>
       </div>
@@ -63,21 +59,21 @@ class productComponent extends HTMLElement {
     this.hideProduct()
 
     if (this.dataset.name !== undefined) {
-      this.changeName(this.dataset.name)
+      this.setName(this.dataset.name)
       this.showProduct()
     }
 
     if (this.dataset.image !== undefined) {
-      this.changeImage(this.dataset.image)
+      this.setImage(this.dataset.image)
     }
 
   }
 
-  changeName(name) {
+  setName(name) {
     this.elements.name.innerText = name
   }
 
-  changeImage(imageURL) {
+  setImage(imageURL) {
     this.elements.image.src = imageURL
   }
 

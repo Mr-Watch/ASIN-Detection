@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link href="main.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>ASIN Detection</title>
+  </head>
+  <body>
+    <header>
+      <img id="header-image" src="assets/YOM.png" alt="header image" />
+    </header>
+    <main>
+      <h1 id="step">2nd Step</h1>
+      <h1>
+        Go to Amazon.com and search the word <span id="key">sleep aid</span> &
+        pick the product that is most appealing to you
+      </h1>
+      <div id="warning">
+        <i
+          class="material-icons"
+          style="font-size: 48px; color: #fece33; padding: 10px 10px 0px 0px"
+          >info</i
+        >
+        <p>As this is for market research, please do not select our brand.</p>
+      </div>
+      <div style="display: flex; justify-content: end;">
+        <div class="spinner"></div>
+      </div>
+      <div class="search-options">
+        <product-url-component></product-url-component>
+        <asin-component></asin-component>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <product-component
+          data-name="Test"
+          data-image="./assets/YOM.png"
+        ></product-component>
+      </div>
+      <div id="textareas-container">
+        <div id="first-container">
+          <h3>What made you pick this product from the search results?</h3>
+          <textarea
+            name="product from search"
+            id="product-from-search"
+            placeholder="It was by far the most well rated"
+            disabled
+          ></textarea>
+        </div>
+        <div id="second-container">
+          <h3>
+            Looking to the product detail page,<br />what grabs your attention
+            the most?<br />What do you like about this product?
+          </h3>
+          <textarea
+            name="product details attention"
+            id="product-details-attention"
+            placeholder="It is very descriptive"
+            disabled
+          ></textarea>
+        </div>
+      </div>
+      <button class="next">NEXT</button>
+      <dialog-component
+        data-title="We will show you how"
+        data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales, lectus in euismod lacinia, sem neque tincidunt urna, id elementum tortor sem quis neque. Aliquam porttitor iaculis ornare. Nullam dignissim varius cursus. Maecenas sed quam in ex rhoncus tempor id id enim. Mauris congue faucibus magna, in luctus purus tincidunt sit amet. Suspendisse facilisis mattis nunc, sed ornare purus pretium a. Suspendisse laoreet lorem fermentum elit lobortis rhoncus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut eget augue augue. Aenean non feugiat est."
+      ></dialog-component>
+    </main>
+
+    <script src="main.js" type="module"></script>
+  </body>
+</html>

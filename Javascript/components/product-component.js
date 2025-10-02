@@ -1,0 +1,95 @@
+import { stringToLinkNode, stringToNode, stringToStyleSheetNode } from "../utils.js"
+
+class productComponent extends HTMLElement {
+  constructor() {
+    super()
+  }
+
+  connectedCallback() {
+    this.defaultImageURl = ""
+    this.defaultProductName = ""
+
+    this.attachShadow({ mode: "open" })
+
+    this.shadowRoot.appendChild(stringToLinkNode("https://fonts.googleapis.com/icon?family=Material+Icons"))
+
+    this.shadowRoot.appendChild(stringToStyleSheetNode(`
+     .product {
+        display: flex;
+        align-items: center;
+      }
+        
+      img {
+        max-height: 300px;
+        max-width: 300px;
+        padding-right: 35px;
+      }
+
+      p {
+        margin: 2px;
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+        
+      h3 {
+        color: #16bb2c;
+        margin: 2px;
+      }`));
+
+    this.shadowRoot.appendChild(stringToNode(`
+        <div class="product">
+          <img src="${this.defaultImageURl}" alt="product image" />
+        <i
+        class="material-icons"
+        style="font-size: 50px;
+               color: #16bb2c;
+               padding-right: 10px;
+               user-select: none;"
+        >check_circle</i>
+        <div>
+          <p>
+            ${this.defaultProductName}
+          </p>
+          <h3>This is a valid product</h3>
+      </div>
+      </div>`))
+
+    this.elements = {}
+    this.elements.product = this.shadowRoot.querySelector(".product")
+    this.elements.image = this.shadowRoot.querySelector("img")
+    this.elements.name = this.shadowRoot.querySelector("p")
+
+    this.hideProduct()
+
+    if (this.dataset.name !== undefined) {
+      this.changeName(this.dataset.name)
+      this.showProduct()
+    }
+
+    if (this.dataset.image !== undefined) {
+      this.changeImage(this.dataset.image)
+    }
+
+  }
+
+  changeName(name) {
+    this.elements.name.innerText = name
+  }
+
+  changeImage(imageURL) {
+    this.elements.image.src = imageURL
+  }
+
+  showProduct() {
+    this.elements.product.style.display = ""
+  }
+
+  hideProduct() {
+    this.elements.product.style.display = "none"
+  }
+}
+
+customElements.define("product-component", productComponent)
+
+export { productComponent }

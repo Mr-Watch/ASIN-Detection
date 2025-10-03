@@ -69,13 +69,19 @@ class productComponent extends HTMLElement {
 
   }
 
-  setName(name) {
-    this.elements.name.innerText = name
-  }
-
   setImage(imageURL) {
     this.elements.image.src = imageURL
   }
+
+  setName(name) {
+    this.elements.name.innerText = name
+    if (name !== "") {
+      this.showProduct()
+    } else {
+      this.hideProduct()
+    }
+  }
+
 
   showProduct() {
     this.elements.product.style.display = ""

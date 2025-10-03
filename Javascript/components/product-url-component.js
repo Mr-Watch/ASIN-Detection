@@ -14,11 +14,10 @@ class productURLComponent extends HTMLElement {
         .paste-url {
             display: flex;
             flex-flow: column;
-            width: fit-content;
         }
 
         input {
-            height: 40px;
+            height: 50px;
             border-style: solid;
             border-radius: 5px;
             border-width: 3px;
@@ -47,11 +46,11 @@ class productURLComponent extends HTMLElement {
             <h2>Paste here the URL of the product that you choose!</h2>
                 <input type="text" />
             <div class="error">
-                <i class="material-icons" style="font-size: 48px; color: #fa0101"
+                <i class="material-icons" style="font-size: 48px; color: #fa0101; user-select: none;"
                 >error</i
                 >
                 <h2 class="message">
-                    Sorry we didn't find product information at this URL.
+                Message
                 </h2>
             </div>
         </div>`))
@@ -62,6 +61,7 @@ class productURLComponent extends HTMLElement {
         this.elements.message = this.shadowRoot.querySelector(".message")
 
         this.hideError()
+        this.setAttribute("data-valid", "invalid")
         this.elements.input.addEventListener("input", this.setValidity.bind(this))
     }
 
@@ -70,10 +70,14 @@ class productURLComponent extends HTMLElement {
         if (this.elements.input.value === "" || validity) {
             this.elements.input.setCustomValidity("")
             this.hideError()
+            this.setAttribute("data-valid", "valid")
+
         } else {
             this.elements.input.setCustomValidity("The url is invalid")
             this.setMessage("This url is not valid")
             this.showError()
+            this.setAttribute("data-valid", "invalid")
+
         }
     }
 
@@ -81,16 +85,19 @@ class productURLComponent extends HTMLElement {
         this.elements.message.innerText = message;
     }
 
+    showError() {
+        this.elements.error.style.visibility = "visible"
+    }
+
     hideError() {
         this.elements.error.style.visibility = "hidden"
     }
 
-    showError() {
-        this.elements.error.style.visibility = ""
-    }
 
     validateURL(url) {
-        return /^https:\/\/www\.amazon\.com\/.*dp\/[A-Z|0-9]{10}\/{0,1}.*/gm.test(url)
+        let firstEvaluation = /^https:\/\/www\.amazon\.com\/dp\/[A-Z|\d]{10}($|(\/$))/.test(url);
+        let secondEvaluation = /^https:\/\/www\.amazon\.com\/.*\/dp\/[A-Z|\d]{10}[\?|\/].*$/.test(url)
+        return firstEvaluation || secondEvaluation ? true : false;
     }
 
 }

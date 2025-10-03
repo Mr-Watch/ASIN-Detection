@@ -1,11 +1,3 @@
-export function validateASIN(asin) {
-    return /^[A-Z|0-9]{10}$/gm.test(asin)
-}
-
-export function validateURL(url) {
-    return /^https:\/\/www\.amazon\.com\/.+\/dp\/[A-Z|0-9]{10}($|(\/.*$))/gm.test(url)
-}
-
 export function stringToNode(nodeString) {
     let doc = new DOMParser().parseFromString(nodeString, "text/html");
     return doc.body.firstChild;

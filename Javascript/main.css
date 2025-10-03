@@ -1,6 +1,6 @@
 html {
   margin: 0px;
-  font-family: sans-serif;
+  font-family: "Figtree";
   font-size: large;
 }
 
@@ -17,29 +17,32 @@ body {
 
 header {
   width: 100%;
-  height: 120px;
+  height: 100px;
 }
 
 #header-image {
   position: relative;
   height: inherit;
-  left: 50px;
+  left: 2%;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  align-content: center;
-  align-self: center;
 }
 
 #step {
   color: #f1cd5c;
-  width: 100%;
+  width: 69%;
   margin: 1px;
   margin-top: 50px;
+  font-size: 54px;
+}
+
+#hero-text {
+  margin-top: 10px;
+  width: 69%;
 }
 
 #key {
@@ -49,57 +52,88 @@ main {
 
 #warning {
   background-color: #f3ebd8;
-  width: 100%;
+  width: 69%;
   border-radius: 100px;
   padding: 10px;
   display: flex;
 }
 
-.search-options {
+#spinner-container {
+  display: flex;
+  justify-content: end;
+  width: 85%;
+  visibility: hidden;
+}
+
+#search-options {
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 100px;
+  margin-left: 4%;
 }
 
-#textareas-container {
-  background-color: #ffffff;
-  width: 100%;
+product-url-component {
+  width: 45%;
+}
+
+asin-component {
+  width: 45%;
+}
+
+#product-container {
   display: flex;
-  gap: 100px;
-  border-top: solid 3px #E0E1E1;
-  justify-content: space-evenly;
-  align-content: stretch;
-  margin-top: 100px;
-  padding-top: 50px;
+  justify-content: center;
+  width: 85%;
+  margin-top: 20px;
 }
 
-
+#textarea-container {
+  background-color: #ffffff;
+  display: grid;
+  place-content: center;
+  grid-template-columns: repeat(2, 420px);
+  row-gap: 30px;
+  column-gap: 100px;
+  border-top: solid 3px #e0e1e1;
+  margin-top: 30px;
+  padding-top: 50px;
+  width: 100%;
+}
 
 textarea {
-  width: 400px;
+  width: 370px;
   height: 200px;
   padding: 20px;
   outline: none;
   border-style: solid;
   border-color: #cbcbcb;
-  border-radius: 5px;
+  border-radius: 3px;
   resize: none;
 }
 
-.next {
+#button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+#next {
   width: 400px;
   height: 35px;
   background-color: #f6c506;
   border-width: 0px;
-  border-radius: 5px;
+  border-radius: 3px;
   font-weight: bold;
+  margin: 130px;
+  margin-bottom: 30px;
 }
 
 .spinner {
-  width: 50px;
+  width: 20px;
   padding: 8px;
-  margin: 30px;
+  margin: 5px;
   aspect-ratio: 1;
   border-radius: 50%;
   background: #000000;

@@ -1,96 +1,115 @@
-import { productComponent } from "./components/product-component.js";
-import { dialogComponent } from "./components/dialog-component.js";
 import { productURLComponent } from "./components/product-url-component.js";
 import { asinComponent } from "./components/asin-component.js";
-import { getProductImage, getProductTitle } from "./product-info-extractor.js"
+import { productComponent } from "./components/product-component.js";
+import { dialogComponent } from "./components/dialog-component.js";
+import { getCorrectHtmlString, getProductImageURL, getProductTitle, getProductWayFinding } from "./product-info-extractor.js"
 
+const spinnerNode = document.querySelector(".spinner")
+const productURLNode = document.querySelector("product-url-component")
+const asinNode = document.querySelector("asin-component")
+const productNode = document.querySelector("product-component")
+const dropdownNode = document.querySelector("#dropdown-arrow")
+const submitButton = document.querySelector("button")
+const dialogNode = document.querySelector("dialog-component")
+let deg = 0
 
-// console.log(document.querySelector('dialog-component').showDialog())
+dropdownNode.addEventListener("click", () => {
+    document.querySelector('#form').classList.toggle("hideTextareaContainer")
+    setTimeout(() => {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 100)
+    dropdownNode.style.transform = `rotate(${deg += 180}deg)`
+})
 
-
-// let product = document.querySelector("product-component")
-
-// let image = await getProductImage(`https://www.amazon.com/dp/B07RWRJFXW
-// `)
-
-// let title = await getProductTitle(`https://www.amazon.com/dp/B07RWRJFXW
-// `)
-// product.setName("Magic Can")
-// product.setImage("https://m.media-amazon.com/images/S/aplus-media/sc/462e3bb2-3dd0-4a51-b9ad-c12f2c9c2bcd.__CR0,0,970,600_PT0_SX970_V1___.jpg")
-
-document.querySelector("#next").addEventListener("click", () => {
+submitButton.addEventListener("click", () => {
     alert('What is next... Who knows?')
 })
 
-const asinNode = document.querySelector("asin-component");
-const productURLNode = document.querySelector("product-url-component");
-const productNode = document.querySelector("product-component");
-const submitButton = document.querySelector("button")
+async function setupProduct(url, messenger) {
+    showSpinner()
 
-function setupProduct(direction = "center") {
-
-    switch (direction) {
-        case "center":
-            document.querySelector("#product-container").style.justifyContent = direction
-            break;
-        case "right":
-            document.querySelector("#product-container").style.justifyContent = "end"
-            break;
-
+    if (messenger === "asin-component") {
+        document.querySelector("#product-container").style.justifyContent = "end"
+        productNode.classList.add("reposition-product")
+    } else {
+        document.querySelector("#product-container").style.justifyContent = "center"
     }
 
-    if (direction === "center") {
+    try {
+        let htmlString = await getCorrectHtmlString(url)
+        productNode.setName(getProductTitle(htmlString))
+        productNode.setImage(getProductImageURL(htmlString))
+        dialogNode.setBody("You can find it by following the sections listed bellow on amazon<br>" + getProductWayFinding(htmlString))
+
+        if (messenger === "asin-component") {
+            asinNode.showSeeHow()
+        }
+
+        spinnerNode.style.visibility = "hidden"
+        enableAllTextarea()
+        submitButton.disabled = false
+    } catch (error) {
+        if (messenger === "asin-component") {
+            asinNode.setMessage("Sorry we didn't find product information with this ASIN.")
+        } else {
+            productURLNode.setMessage("Sorry we didn't find product information at this URL.")
+            asinNode.show()
+        }
+
+        hideSpinner()
+        return
     }
-    productNode.setName("Test");
-    productNode.setImage("https://m.media-amazon.com/images/S/aplus-media/sc/462e3bb2-3dd0-4a51-b9ad-c12f2c9c2bcd.__CR0,0,970,600_PT0_SX970_V1___.jpg")
-    enableAllTextarea();
-    submitButton.disabled = false
 }
 
 function reverseSetupProduct() {
-    productNode.setName("");
+    productNode.setName("")
     productNode.setImage("")
-    disableAllTextarea();
+    productNode.classList.remove("reposition-product")
+    disableAllTextarea()
     submitButton.disabled = true
 }
 
-setupProduct()
-let elementsToFunctions = {
-
+function showSpinner() {
+    spinnerNode.style.visibility = "visible"
 }
 
-
+function hideSpinner() {
+    spinnerNode.style.visibility = "hidden"
+}
 
 function enableAllTextarea() {
     document.querySelectorAll("textarea").forEach((textarea) => {
-        textarea.disabled = false;
+        textarea.disabled = false
     })
 }
 
 function disableAllTextarea() {
     document.querySelectorAll("textarea").forEach((textarea) => {
-        textarea.disabled = true;
+        textarea.disabled = true
     })
 }
 
-
-
-const config = { attributes: true, attributeOldValue: true };
-
-const callback = (mutationRecordArray) => {
-    for (const record of mutationRecordArray) {
-        console.log(`Old value: ${record.oldValue}`)
-        console.log(record)
-        console.log(record.target.id)
+function sendMessage(message, messenger, state) {
+    switch (message) {
+        case "valid":
+            setupProduct(state, messenger)
+            break
+        case "invalid":
+            if (messenger === "product-url-component") {
+                asinNode.hide()
+            }
+            reverseSetupProduct()
+            break
+        case "dialog":
+            dialogNode.show()
+            break
+        default:
+            console.error("Received invalid message")
+            break
     }
-};
+}
 
-const observer = new MutationObserver(callback)
-observer.observe(asinNode, config)
-observer.observe(productURLNode, config)
-
-
-window.a = setupProduct;
-window.b = reverseSetupProduct;
-
-reverseSetupProduct()
+window.sendMessage = sendMessage

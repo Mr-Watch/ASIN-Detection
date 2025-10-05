@@ -49,11 +49,11 @@ class dialogComponent extends HTMLElement {
 
         this.elements = {}
         this.elements.dialog = this.shadowRoot.querySelector("dialog")
+        this.elements.close = this.shadowRoot.querySelector("i")
         this.elements.title = this.shadowRoot.querySelector("h1")
         this.elements.body = this.shadowRoot.querySelector("main")
-        this.elements.close = this.shadowRoot.querySelector("i")
 
-        this.elements.close.addEventListener("click", this.closeDialog.bind(this))
+        this.elements.close.addEventListener("click", this.hide.bind(this))
 
         if (this.dataset.title !== undefined) {
             this.setTitle(this.dataset.title)
@@ -76,11 +76,11 @@ class dialogComponent extends HTMLElement {
         this.elements.body.innerHTML = body
     }
 
-    showDialog() {
+    show() {
         this.elements.dialog.showModal()
     }
 
-    closeDialog() {
+    hide() {
         this.elements.dialog.close()
     }
 }

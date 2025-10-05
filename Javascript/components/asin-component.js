@@ -77,8 +77,10 @@ class asinComponent extends HTMLElement {
         this.hideError()
         this.hideSeeHow()
         this.hide()
-        this.setAttribute("data-trigger", "false")
         this.elements.input.addEventListener("input", this.setValidity.bind(this))
+        this.elements.seeHow.addEventListener("click", () => {
+            window.sendMessage("dialog")
+        })
     }
 
     setValidity() {
@@ -86,19 +88,23 @@ class asinComponent extends HTMLElement {
         if (this.elements.input.value === "") {
             this.elements.input.setCustomValidity("")
             this.hideError()
+            this.hideSeeHow()
+            window.sendMessage("invalid")
         } else if (validity) {
             this.elements.input.setCustomValidity("")
             this.hideError()
-            this.setAttribute("data-trigger", "true")
+            window.sendMessage("valid", "asin-component", this.elements.input.value)
         } else {
             this.elements.input.setCustomValidity("This ASIN is invalid")
+            this.hideSeeHow()
             this.setMessage("This ASIN is invalid")
-            this.showError()
+            window.sendMessage("invalid")
         }
     }
 
     setMessage(message) {
-        this.elements.message.innerText = message;
+        this.elements.message.innerText = message
+        this.showError()
     }
 
     showError() {
@@ -117,18 +123,18 @@ class asinComponent extends HTMLElement {
         this.elements.seeHow.style.visibility = "hidden"
     }
 
-    show(){
+    show() {
         this.elements.root.style.visibility = "visible"
     }
-    
-    hide(){
+
+    hide() {
         this.elements.root.style.visibility = "hidden"
+        this.hideSeeHow()
     }
 
     validateASIN(asin) {
         return /^[A-Z|0-9]{10}$/gm.test(asin)
     }
-
 }
 
 customElements.define("asin-component", asinComponent)

@@ -45,44 +45,40 @@
       <div id="product-container">
         <product-component></product-component>
       </div>
-      <img
-        src="./assets/arrow.svg"
-        alt="arrow"
-        style="height: 60px; margin-top: 50px"
-      />
-      <div id="textarea-container">
-        <h3>What made you pick this product from the search results?</h3>
-        <h3>
-          Looking to the product detail page,<br />what grabs your attention the
-          most?<br />What do you like about this product?
-        </h3>
-        <div id="first-container">
-          <textarea
-            name="product from search"
-            id="product-from-search"
-            placeholder="It was by far the most well rated"
-            disabled
-          ></textarea>
+      <img id="dropdown-arrow" src="./assets/arrow.svg" alt="dropdown arrow" />
+      <div id="form">
+        <div id="textarea-container">
+          <h3>What made you pick this product from the search results?</h3>
+          <h3>
+            Looking to the product detail page,<br />what grabs your attention
+            the most?<br />What do you like about this product?
+          </h3>
+          <div id="first-container">
+            <textarea
+              name="product from search"
+              id="product-from-search"
+              placeholder="It was by far the most well rated"
+              disabled
+            ></textarea>
+          </div>
+          <div id="second-container">
+            <textarea
+              name="product details attention"
+              id="product-details-attention"
+              placeholder="It is very descriptive"
+              disabled
+            ></textarea>
+          </div>
         </div>
-        <div id="second-container">
-          <textarea
-            name="product details attention"
-            id="product-details-attention"
-            placeholder="It is very descriptive"
-            disabled
-          ></textarea>
+        <div id="button-container">
+          <button id="next" disabled>NEXT</button>
         </div>
       </div>
-      <div id="button-container">
-        <button id="next">NEXT</button>
-      </div>
-
       <dialog-component
         data-title="We will show you how"
-        data-body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales, lectus in euismod lacinia, sem neque tincidunt urna, id elementum tortor sem quis neque. Aliquam porttitor iaculis ornare. Nullam dignissim varius cursus. Maecenas sed quam in ex rhoncus tempor id id enim. Mauris congue faucibus magna, in luctus purus tincidunt sit amet. Suspendisse facilisis mattis nunc, sed ornare purus pretium a. Suspendisse laoreet lorem fermentum elit lobortis rhoncus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut eget augue augue. Aenean non feugiat est."
+        data-body="Lorem ipsum"
       ></dialog-component>
     </main>
-
     <script src="main.js" type="module"></script>
   </body>
 </html>

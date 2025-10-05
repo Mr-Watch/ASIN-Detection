@@ -14,6 +14,7 @@ class productURLComponent extends HTMLElement {
         .paste-url {
             display: flex;
             flex-flow: column;
+            font-weight: 100;
         }
 
         input {
@@ -67,22 +68,24 @@ class productURLComponent extends HTMLElement {
 
     setValidity() {
         let validity = this.validateURL(this.elements.input.value);
-        if (this.elements.input.value === "" || validity) {
+        if (this.elements.input.value === "") {
             this.elements.input.setCustomValidity("")
             this.hideError()
-            this.setAttribute("data-valid", "valid")
-
+            window.sendMessage("invalid", "product-url-component")
+        } else if (validity) {
+            this.elements.input.setCustomValidity("")
+            this.hideError()
+            window.sendMessage("valid", "product-url-component", this.elements.input.value)
         } else {
             this.elements.input.setCustomValidity("The url is invalid")
             this.setMessage("This url is not valid")
-            this.showError()
-            this.setAttribute("data-valid", "invalid")
-
+            window.sendMessage("invalid", "product-url-component")
         }
     }
 
     setMessage(message) {
-        this.elements.message.innerText = message;
+        this.elements.message.innerText = message
+        this.showError()
     }
 
     showError() {
@@ -93,13 +96,9 @@ class productURLComponent extends HTMLElement {
         this.elements.error.style.visibility = "hidden"
     }
 
-
     validateURL(url) {
-        let firstEvaluation = /^https:\/\/www\.amazon\.com\/dp\/[A-Z|\d]{10}($|(\/$))/.test(url);
-        let secondEvaluation = /^https:\/\/www\.amazon\.com\/.*\/dp\/[A-Z|\d]{10}[\?|\/].*$/.test(url)
-        return firstEvaluation || secondEvaluation ? true : false;
+        return /^https?:\/\/www\.amazon\.com\/(?:[a-zA-Z0-9-%\s.]*\/)?dp\/[A-Z0-9]{10}(?:[\/?].*)?$/gm.test(url);
     }
-
 }
 
 customElements.define("product-url-component", productURLComponent)

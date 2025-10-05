@@ -55,8 +55,8 @@ class asinComponent extends HTMLElement {
         this.shadowRoot.appendChild(stringToNode(`
         <div class="asin">
             <h2>OR Try to find manually the<br>ASIN</h2>
-                <input type="text" />
-                <a href="javascript:void(0)"><u>see how</u></a>
+                <input type="text" aria-label="Paste ASIN"/>
+                <a href="#" onclick="return false;"><u>see how</u></a>
             <div class="error">
                 <i class="material-icons" style="font-size: 48px; color: #fa0101; user-select: none;"
                 >error</i

@@ -45,7 +45,7 @@ class productURLComponent extends HTMLElement {
         this.shadowRoot.appendChild(stringToNode(`
         <div class="paste-url">
             <h2>Paste here the URL of the product that you choose!</h2>
-                <input type="text" />
+                <input type="text" aria-label="Paste product url"/>
             <div class="error">
                 <i class="material-icons" style="font-size: 48px; color: #fa0101; user-select: none;"
                 >error</i

@@ -7,21 +7,76 @@ import Asin from "./components/Asin.jsx";
 import Product from "./components/Product.jsx";
 import Form from "./components/Form.jsx";
 import Info from "./components/Info.jsx";
+import {
+  getCorrectHtmlString,
+  getProductImageURL,
+  getProductTitle,
+  getProductWayFinding,
+} from "./utilities/product-info-extractor.js";
 
 function App() {
-  const [locked, setLocked] = useState(true);
-  const [spinnerVisibility, setSpinnerVisibility] = useState("visible");
-  const [productDisplay, setProductDisplay] = useState("flex");
+  const [formLocked, setFormLocked] = useState(true);
+  const [spinnerVisibility, setSpinnerVisibility] = useState("hidden");
+  const [customMessages, setCustomMessages] = useState({
+    productUrl: undefined,
+    asin: undefined,
+  });
+  const [productData, setProductData] = useState({
+    title: "",
+    src: "",
+    display: "none",
+  });
 
-  function handleChange(e) {
-    setText(e.target.value);
+  async function setupProduct(url, messenger) {
+    setSpinnerVisibility("visible");
+
+    try {
+      let htmlString = await getCorrectHtmlString(url);
+
+      setProductData((prevData) => ({
+        ...prevData,
+        title: getProductTitle(htmlString),
+        src: getProductImageURL(htmlString),
+        display: "flex",
+      }));
+      // dialogNode.setBody(
+      //   "You can find it by following the sections listed bellow on amazon<br>" +
+      //     getProductWayFinding(htmlString)
+      // );
+
+      // if (messenger === "asin-component") {
+      //   asinNode.showSeeHow();
+      // }
+
+      setSpinnerVisibility("hidden");
+      setFormLocked(false);
+    } catch (error) {
+      console.log(error);
+      if (messenger === "asin") {
+        setCustomMessages((prevData) => ({
+          ...prevData,
+          asin: "Sorry we didn't find product information with this ASIN.",
+        }));
+      } else {
+        setCustomMessages((prevData) => ({
+          ...prevData,
+          productUrl: "Sorry we didn't find product information at this URL.",
+        }));
+
+        // asinNode.show();
+      }
+
+      setSpinnerVisibility("hidden");
+      return;
+    }
   }
 
-  function notifyParent(intent) {
-    if (intent === "yes")
-      console.log(
-        "YEYYYYYYYYYYYYYYYYYYYYYYYYEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSS"
-      );
+  function handleChangeProductUrl(message, data) {
+    setupProduct(data, "product");
+  }
+
+  function handleChangeAsin(message, data) {
+    setupProduct(data, "asin");
   }
 
   return (
@@ -44,14 +99,17 @@ function App() {
           sx={{ visibility: spinnerVisibility }}
         />
       </Container>
-      <ProductUrl />
-      <Asin visibility="hidden" />
-      <Product
-        title="This is the best"
-        src="/assets/YOM.png"
-        display={productDisplay}
+      <ProductUrl
+        parentFunction={handleChangeProductUrl}
+        customMessage={customMessages.productUrl}
       />
-      <Form locked={locked} />
+      <Asin visibility="hidden" parentFunction={handleChangeAsin} customMessage={customMessages.asin} />
+      <Product
+        title={productData.title}
+        src={productData.src}
+        display={productData.display}
+      />
+      <Form formLocked={formLocked} />
     </>
   );
 }

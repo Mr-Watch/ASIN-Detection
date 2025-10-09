@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-export default function Form({locked}) {
+export default function Form({ formLocked }) {
   return (
     <>
       <Container>
@@ -37,7 +37,7 @@ export default function Form({locked}) {
               name="product from search"
               id="product-from-search"
               placeholder="It was by far the most well rated"
-              disabled={locked}
+              disabled={formLocked}
             ></textarea>
           </Grid>
           <Grid size={6}>
@@ -45,7 +45,7 @@ export default function Form({locked}) {
               name="product details attention"
               id="product-details-attention"
               placeholder="It is very descriptive"
-              disabled={locked}
+              disabled={formLocked}
             ></textarea>
           </Grid>
         </Grid>
@@ -55,7 +55,7 @@ export default function Form({locked}) {
           variant="contained"
           sx={{ bgcolor: "#f6c506", color: "black", fontWeight: "bold" }}
           fullWidth
-          disabled={locked}
+          disabled={formLocked}
         >
           NEXT
         </Button>

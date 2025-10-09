@@ -8,8 +8,9 @@ import { useEffect, useRef, useState } from "react";
 export default function Input({
   text,
   message,
-  notifyParent,
   validateFunction,
+  parentFunction,
+  customMessage,
 }) {
   const [value, setValue] = useState("");
   const [_message, setMessage] = useState("");
@@ -25,13 +26,16 @@ export default function Input({
     if (inputRef.current.value === "") {
       inputRef.current.setCustomValidity("");
       setVisibility("hidden");
+      parentFunction("invalid");
     } else if (validity) {
       inputRef.current.setCustomValidity("");
       setVisibility("hidden");
+      parentFunction("valid", value);
     } else {
       setMessage(message);
       setVisibility("visible");
       inputRef.current.setCustomValidity(message);
+      parentFunction("invalid");
     }
   }
 
@@ -60,7 +64,9 @@ export default function Input({
           }}
         >
           <ErrorIcon sx={{ fontSize: 50, color: "#fa0101" }} />
-          <h2 style={{ color: "#fa0101" }}>{_message}</h2>
+          <h2 style={{ color: "#fa0101" }}>
+            {customMessage !== undefined ? customMessage : _message}
+          </h2>
         </Stack>
       </Container>
     </>

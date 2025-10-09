@@ -4,16 +4,17 @@ import { spacing } from "@mui/system";
 import Stack from "@mui/material/Stack";
 import ErrorIcon from "@mui/icons-material/Error";
 
-export default function Asin() {
+export default function ProductUrl() {
   return (
     <>
       <Container maxWidth="sm">
-        <h2>
-          OR Try to find manually the
-          <br />
-          ASIN
-        </h2>
-        <input style={{width: "100%"}} type="text" name="Paste ASIN" aria-label="Paste ASIN" />
+        <h2>Paste here the URL of the product that you choose!</h2>
+        <input
+          style={{ width: "100%" }}
+          type="text"
+          name="Paste product url"
+          aria-label="Paste product url"
+        />
         <Stack
           direction="row"
           spacing={2}

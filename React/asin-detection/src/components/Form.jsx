@@ -2,46 +2,53 @@ import { useState } from "react";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 
 export default function Form() {
   return (
     <>
       <Container>
-        <Stack
-          spacing={{ xs: 1, sm: 2 }}
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={4}
           direction="row"
-          useFlexGap
           sx={{
-            flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Container maxWidth="sm">
+          <Grid size={4}>
             <h3>What made you pick this product from the search results?</h3>
+          </Grid>
+          <Grid size={6}>
+            <Container maxWidth="sm">
+              <h3>
+                Looking to the product detail page,
+                <br />
+                what grabs your attention the most?
+                <br />
+                What do you like about this product?
+              </h3>
+            </Container>
+          </Grid>
+          <Grid size={4}>
             <textarea
               name="product from search"
               id="product-from-search"
               placeholder="It was by far the most well rated"
               disabled
             ></textarea>
-          </Container>
-          <Container maxWidth="sm">
-            <h3>
-              Looking to the product detail page,
-              <br />
-              what grabs your attention the most?
-              <br />
-              What do you like about this product?
-            </h3>
+          </Grid>
+          <Grid size={6}>
             <textarea
               name="product details attention"
               id="product-details-attention"
               placeholder="It is very descriptive"
               disabled
             ></textarea>
-          </Container>
-        </Stack>
+          </Grid>
+        </Grid>
       </Container>
       <Container maxWidth="sm">
         <Button

@@ -39,6 +39,19 @@ header {
   user-select: none;
 }
 
+input {
+  height: 50px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 3px;
+  padding: 0px 15px 0px 15px;
+}
+
+input:invalid {
+  border-color: #f1b8ba;
+  box-shadow: 0 0 5px #f1b8ba;
+}
+
 textarea {
   width: 370px;
   height: 200px;

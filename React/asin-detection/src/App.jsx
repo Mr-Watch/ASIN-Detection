@@ -6,10 +6,24 @@ import ProductUrl from "./components/ProductUrl.jsx";
 import Asin from "./components/Asin.jsx";
 import Product from "./components/Product.jsx";
 import Form from "./components/Form.jsx";
-import InfoIcon from "@mui/icons-material/Info";
-import Stack from "@mui/material/Stack";
 import Info from "./components/Info.jsx";
+
 function App() {
+  const [locked, setLocked] = useState(true);
+  const [spinnerVisibility, setSpinnerVisibility] = useState("visible");
+  const [productDisplay, setProductDisplay] = useState("flex");
+
+  function handleChange(e) {
+    setText(e.target.value);
+  }
+
+  function notifyParent(intent) {
+    if (intent === "yes")
+      console.log(
+        "YEYYYYYYYYYYYYYYYYYYYYYYYYEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSS"
+      );
+  }
+
   return (
     <>
       <Header src="/assets/YOM.png" />
@@ -24,12 +38,20 @@ function App() {
           backgroundColor="#f3ebd8"
           iconColor="#fece33"
         />
-        <CircularProgress color="black" size="40px" />
+        <CircularProgress
+          color="black"
+          size="40px"
+          sx={{ visibility: spinnerVisibility }}
+        />
       </Container>
       <ProductUrl />
-      <Asin />
-      <Product title="This is the best" src="/assets/YOM.png" />
-      <Form />
+      <Asin visibility="hidden" />
+      <Product
+        title="This is the best"
+        src="/assets/YOM.png"
+        display={productDisplay}
+      />
+      <Form locked={locked} />
     </>
   );
 }

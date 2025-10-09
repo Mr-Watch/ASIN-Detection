@@ -1,32 +1,19 @@
-import Container from "@mui/material/Container";
-import { styled } from "@mui/material/styles";
-import { spacing } from "@mui/system";
-import Stack from "@mui/material/Stack";
-import ErrorIcon from "@mui/icons-material/Error";
+import { useEffect, useRef, useState } from "react";
+import Input from "./Input.jsx";
 
-export default function Asin() {
+export default function Asin({ visibility }) {
+  function validateASIN(asin) {
+    return /^[A-Z|0-9]{10}$/gm.test(asin);
+  }
+
   return (
     <>
-      <Container maxWidth="sm">
-        <h2>
-          OR Try to find manually the
-          <br />
-          ASIN
-        </h2>
-        <input style={{width: "100%"}} type="text" name="Paste ASIN" aria-label="Paste ASIN" />
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{
-            paddingTop: 4,
-            alignItems: "center",
-            maxWidth: 700,
-          }}
-        >
-          <ErrorIcon sx={{ fontSize: 50, color: "#fa0101" }} />
-          <h2 style={{ color: "#fa0101" }}>Message</h2>
-        </Stack>
-      </Container>
+      <Input
+        text="OR Try to find manually the<br />ASIN"
+        message="This ASIN is invalid"
+        validateFunction={validateASIN}
+        style={{ visibility: visibility }}
+      />
     </>
   );
 }

@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useState, Fragment } from "react";
 import Dialog from "@mui/material/Dialog";
+import DOMPurify from "dompurify";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -57,8 +58,10 @@ export default function SeeHowDialog({ title, body, visibility }) {
         </IconButton>
         <DialogContent dividers>
           <Typography
-            gutterBottom
-            dangerouslySetInnerHTML={{ __html: body }}
+            component="div"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(body),
+            }}
           ></Typography>
         </DialogContent>
       </BootstrapDialog>

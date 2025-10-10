@@ -28,7 +28,13 @@ export default function Asin({
         }}
       >
         <Input
-          text="OR Try to find manually the<br />ASIN"
+          text={
+            <>
+              OR Try to find manually the
+              <br />
+              ASIN
+            </>
+          }
           message="This ASIN is invalid"
           validationFunction={validateASIN}
           parentFunction={handleChild}

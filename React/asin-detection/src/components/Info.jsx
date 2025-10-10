@@ -16,7 +16,7 @@ export default function Info({ text, iconColor, backgroundColor }) {
         }}
       >
         <InfoIcon sx={{ fontSize: 48, color: iconColor }} />
-        <p dangerouslySetInnerHTML={{ __html: text }}></p>
+        <p>{text}</p>
       </Stack>
     </>
   );

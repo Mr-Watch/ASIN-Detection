@@ -137,7 +137,9 @@ function App() {
           pick the product that is most appealing to you.
         </h2>
         <Info
-          text="As this is for market research, please do not select our brand."
+          text={
+            <>As this is for market research, please do not select our brand.</>
+          }
           backgroundColor="#f3ebd8"
           iconColor="#fece33"
         />

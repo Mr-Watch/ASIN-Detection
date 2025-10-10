@@ -48,7 +48,7 @@ export default function Input({
       <Container
         sx={{ maxWidth: "550px !important", visibility: componentVisibility }}
       >
-        <h2 dangerouslySetInnerHTML={{ __html: text }}></h2>
+        <h2>{text}</h2>
         <input
           ref={inputRef}
           style={{ width: "90%" }}

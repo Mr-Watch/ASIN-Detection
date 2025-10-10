@@ -129,6 +129,7 @@ class asinComponent extends HTMLElement {
 
     hide() {
         this.elements.root.style.visibility = "hidden"
+        this.hideError()
         this.hideSeeHow()
     }
 

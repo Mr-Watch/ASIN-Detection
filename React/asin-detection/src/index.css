@@ -53,12 +53,20 @@ input:invalid {
 }
 
 textarea {
-  width: 370px;
-  height: 200px;
+  min-width: 370px;
+  min-height: 200px;
   padding: 20px;
   outline: none;
   border-style: solid;
   border-color: #cbcbcb;
   border-radius: 3px;
   resize: none;
+}
+
+#textarea-container {
+  display: grid;
+  place-content: center;
+  grid-template-columns: repeat(2, 420px);
+  row-gap: 30px;
+  column-gap: 100px;
 }

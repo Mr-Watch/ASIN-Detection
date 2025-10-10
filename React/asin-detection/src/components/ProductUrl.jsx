@@ -5,15 +5,23 @@ import Stack from "@mui/material/Stack";
 import ErrorIcon from "@mui/icons-material/Error";
 import Input from "./Input.jsx";
 
-export default function ProductUrl({parentFunction, customMessage}) {
+export default function ProductUrl({
+  parentFunction,
+  customMessage,
+  errorVisibility,
+}) {
   function validateURL(url) {
     return /^https?:\/\/www\.amazon\.com\/(?:[a-zA-Z0-9-%\s.]*\/)?dp\/[A-Z0-9]{10}(?:[\/?].*)?$/gm.test(
       url
     );
   }
 
-    function handleChild(message, data) {
-    if (message === "valid") parentFunction(message, data);
+  function handleChild(message, data) {
+    if (message === "valid") {
+      parentFunction(message, data);
+    } else if (message === "invalid") {
+      parentFunction("invalid", data);
+    }
   }
 
   return (
@@ -24,6 +32,7 @@ export default function ProductUrl({parentFunction, customMessage}) {
         validateFunction={validateURL}
         parentFunction={handleChild}
         customMessage={customMessage}
+        errorVisibility={errorVisibility}
       />
     </>
   );

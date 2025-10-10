@@ -1,6 +1,4 @@
 import Container from "@mui/material/Container";
-import { styled } from "@mui/material/styles";
-import { spacing } from "@mui/system";
 import Stack from "@mui/material/Stack";
 import ErrorIcon from "@mui/icons-material/Error";
 import { useEffect, useRef, useState } from "react";
@@ -11,10 +9,12 @@ export default function Input({
   validateFunction,
   parentFunction,
   customMessage,
+  componentVisibility,
+  errorVisibility,
 }) {
   const [value, setValue] = useState("");
   const [_message, setMessage] = useState("");
-  const [visibility, setVisibility] = useState("visible");
+  const [_errorVisibility, setVisibility] = useState("visible");
   const inputRef = useRef(null);
 
   function handleValue(e) {
@@ -25,8 +25,9 @@ export default function Input({
     let validity = validateFunction(inputRef.current.value);
     if (inputRef.current.value === "") {
       inputRef.current.setCustomValidity("");
+      setMessage(message);
       setVisibility("hidden");
-      parentFunction("invalid");
+      parentFunction("invalid", value);
     } else if (validity) {
       inputRef.current.setCustomValidity("");
       setVisibility("hidden");
@@ -43,11 +44,13 @@ export default function Input({
 
   return (
     <>
-      <Container maxWidth="sm">
+      <Container
+        sx={{ maxWidth: "550px !important", visibility: componentVisibility }}
+      >
         <h2 dangerouslySetInnerHTML={{ __html: text }}></h2>
         <input
           ref={inputRef}
-          style={{ width: "100%" }}
+          style={{ width: "90%" }}
           type="text"
           name={text}
           aria-label={text}
@@ -60,13 +63,18 @@ export default function Input({
           sx={{
             paddingTop: 4,
             alignItems: "center",
-            visibility: { visibility },
+            visibility: {
+              visibility:
+                errorVisibility === "visible"
+                  ? errorVisibility
+                  : _errorVisibility,
+            },
           }}
         >
           <ErrorIcon sx={{ fontSize: 50, color: "#fa0101" }} />
-          <h2 style={{ color: "#fa0101" }}>
+          <p style={{ color: "#fa0101" }}>
             {customMessage !== undefined ? customMessage : _message}
-          </h2>
+          </p>
         </Stack>
       </Container>
     </>

@@ -1,16 +1,25 @@
-import { stringToLinkNode, stringToNode, stringToStyleSheetNode } from "../utils.js"
+import {
+  stringToLinkNode,
+  stringToNode,
+  stringToStyleSheetNode,
+} from "../utils.js";
 
 class dialogComponent extends HTMLElement {
-    constructor() {
-        super()
-    }
+  constructor() {
+    super();
+  }
 
-    connectedCallback() {
-        this.attachShadow({ mode: "open" })
+  connectedCallback() {
+    this.attachShadow({ mode: "open" });
 
-        this.shadowRoot.appendChild(stringToLinkNode("https://fonts.googleapis.com/icon?family=Material+Icons"))
+    this.shadowRoot.appendChild(
+      stringToLinkNode(
+        "https://fonts.googleapis.com/icon?family=Material+Icons"
+      )
+    );
 
-        this.shadowRoot.appendChild(stringToStyleSheetNode(`
+    this.shadowRoot.appendChild(
+      stringToStyleSheetNode(`
         dialog {
             margin-top: 100px;
             border-radius: 10px;
@@ -27,9 +36,11 @@ class dialogComponent extends HTMLElement {
         main {
             margin: 30px 10px 10px 10px;
             font-size: 20px;
-        }`))
+        }`)
+    );
 
-        this.shadowRoot.appendChild(stringToNode(`
+    this.shadowRoot.appendChild(
+      stringToNode(`
         <dialog closedby="any">
         <i
             class="material-icons"
@@ -45,46 +56,47 @@ class dialogComponent extends HTMLElement {
         <main>
         Body
         </main>
-        </dialog>`))
+        </dialog>`)
+    );
 
-        this.elements = {}
-        this.elements.dialog = this.shadowRoot.querySelector("dialog")
-        this.elements.close = this.shadowRoot.querySelector("i")
-        this.elements.title = this.shadowRoot.querySelector("h1")
-        this.elements.body = this.shadowRoot.querySelector("main")
+    this.elements = {};
+    this.elements.dialog = this.shadowRoot.querySelector("dialog");
+    this.elements.close = this.shadowRoot.querySelector("i");
+    this.elements.title = this.shadowRoot.querySelector("h1");
+    this.elements.body = this.shadowRoot.querySelector("main");
 
-        this.elements.close.addEventListener("click", this.hide.bind(this))
+    this.elements.close.addEventListener("click", this.hide.bind(this));
 
-        if (this.dataset.title !== undefined) {
-            this.setTitle(this.dataset.title)
-        }
-
-        if (this.dataset.body !== undefined) {
-            this.setBody(this.dataset.body)
-        }
-
-        if (this.innerHTML !== "") {
-            this.setBody(this.innerHTML)
-        }
+    if (this.dataset.title !== undefined) {
+      this.setTitle(this.dataset.title);
     }
 
-    setTitle(title) {
-        this.elements.title.innerText = title
+    if (this.dataset.body !== undefined) {
+      this.setBody(this.dataset.body);
     }
 
-    setBody(body) {
-        this.elements.body.innerHTML = body
+    if (this.innerHTML !== "") {
+      this.setBody(this.innerHTML);
     }
+  }
 
-    show() {
-        this.elements.dialog.showModal()
-    }
+  setTitle(title) {
+    this.elements.title.innerText = title;
+  }
 
-    hide() {
-        this.elements.dialog.close()
-    }
+  setBody(body) {
+    this.elements.body.innerHTML = body;
+  }
+
+  show() {
+    this.elements.dialog.showModal();
+  }
+
+  hide() {
+    this.elements.dialog.close();
+  }
 }
 
-customElements.define("dialog-component", dialogComponent)
+customElements.define("dialog-component", dialogComponent);
 
-export { dialogComponent }
+export { dialogComponent };

@@ -1,14 +1,13 @@
-import { useState } from "react";
-import Header from "./components/Header.jsx";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import ProductUrl from "./components/ProductUrl.jsx";
-import Asin from "./components/Asin.jsx";
+import Container from "@mui/material/Container";
 import Product from "./components/Product.jsx";
-import Form from "./components/Form.jsx";
+import Header from "./components/Header.jsx";
 import Info from "./components/Info.jsx";
-
+import Asin from "./components/Asin.jsx";
+import Form from "./components/Form.jsx";
+import Stack from "@mui/material/Stack";
+import { useState } from "react";
 import {
   getCorrectHtmlString,
   getProductImageURL,
@@ -17,32 +16,32 @@ import {
 } from "./utilities/product-info-extractor.js";
 
 function App() {
-  const [formLocked, setFormLocked] = useState(true);
   const [spinnerVisibility, setSpinnerVisibility] = useState("hidden");
+  const [asinVisibility, setAsinVisibility] = useState("hidden");
+  const [formDisabled, setFormDisabled] = useState(true);
   const [customMessages, setCustomMessages] = useState({
     productUrl: undefined,
     asin: undefined,
   });
-
-  const [asinVisibility, setAsinVisibility] = useState("hidden");
-
   const [errorVisibilities, setErrorVisibilities] = useState({
     productUrl: "hidden",
     asin: "hidden",
   });
-
   const [productData, setProductData] = useState({
-    title: "test",
-    src: "test",
-    display: "none",
     justify: "center",
+    display: "none",
+    title: "",
+    src: null,
   });
-
   const [seeHowDialogData, setSeeHowDialogData] = useState({
+    visibility: "hidden",
     title: "",
     body: "",
-    visibility: "hidden",
   });
+
+  function genericSet(_function, key, value) {
+    _function((prevData) => ({ ...prevData, [key]: value }));
+  }
 
   async function setupProduct(url, messenger) {
     setSpinnerVisibility("visible");
@@ -65,44 +64,29 @@ function App() {
       }));
 
       if (messenger === "asin") {
-        setSeeHowDialogData((prevData) => ({
-          ...prevData,
-          visibility: "visible",
-        }));
-        setProductData((prevData) => ({
-          ...prevData,
-          justify: "end",
-        }));
+        genericSet(setSeeHowDialogData, "visibility", "visible");
+        genericSet(setProductData, "justify", "end");
       }
-
       setSpinnerVisibility("hidden");
-      setFormLocked(false);
+      setFormDisabled(false);
     } catch (error) {
-      console.log(error);
       if (messenger === "asin") {
-        setCustomMessages((prevData) => ({
-          ...prevData,
-          asin: "Sorry we didn't find product information with this ASIN.",
-        }));
-        setErrorVisibilities((prevData) => ({
-          ...prevData,
-          asin: "visible",
-        }));
+        genericSet(
+          setCustomMessages,
+          "asin",
+          "Sorry we didn't find product information with this ASIN."
+        );
+        genericSet(setErrorVisibilities, "asin", "visible");
       } else {
-        setCustomMessages((prevData) => ({
-          ...prevData,
-          productUrl: "Sorry we didn't find product information at this URL.",
-        }));
-
-        setErrorVisibilities((prevData) => ({
-          ...prevData,
-          productUrl: "visible",
-        }));
+        genericSet(
+          setCustomMessages,
+          "productUrl",
+          "Sorry we didn't find product information at this URL."
+        );
+        genericSet(setErrorVisibilities, "productUrl", "visible");
         setAsinVisibility("visible");
       }
-
       setSpinnerVisibility("hidden");
-
       return;
     }
   }
@@ -114,30 +98,18 @@ function App() {
       src: null,
       display: "none",
     }));
-    setFormLocked(true);
+    setFormDisabled(true);
   }
 
   function handleChangeProductUrl(message, data) {
     clearProduct();
 
     if (message === "invalid") {
-      setErrorVisibilities((prevData) => ({
-        ...prevData,
-        productUrl: "hidden",
-      }));
-      setCustomMessages((prevData) => ({
-        ...prevData,
-        productUrl: undefined,
-      }));
+      genericSet(setErrorVisibilities, "productUrl", "hidden");
+      genericSet(setCustomMessages, "productUrl", undefined);
       setAsinVisibility("hidden");
-      setSeeHowDialogData((prevData) => ({
-        ...prevData,
-        visibility: "hidden",
-      }));
-      setErrorVisibilities((prevData) => ({
-        ...prevData,
-        asin: "hidden",
-      }));
+      genericSet(setSeeHowDialogData, "visibility", "hidden");
+      genericSet(setErrorVisibilities, "asin", "hidden");
     } else {
       setupProduct(data, "product");
     }
@@ -145,21 +117,11 @@ function App() {
 
   function handleChangeAsin(message, data) {
     clearProduct();
-
-    setSeeHowDialogData((prevData) => ({
-      ...prevData,
-      visibility: "hidden",
-    }));
+    genericSet(setSeeHowDialogData, "visibility", "hidden");
 
     if (message === "invalid") {
-      setErrorVisibilities((prevData) => ({
-        ...prevData,
-        asin: "hidden",
-      }));
-      setCustomMessages((prevData) => ({
-        ...prevData,
-        asin: undefined,
-      }));
+      genericSet(setErrorVisibilities, "asin", "hidden");
+      genericSet(setCustomMessages, "asin", undefined);
     } else {
       setupProduct(data, "asin");
     }
@@ -197,25 +159,18 @@ function App() {
           maxWidth: "100% !important",
         }}
       >
-        <Stack
-          direction="row"
-          spacing={2}
-          // sx={{
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          // }}
-        >
+        <Stack direction="row" spacing={2}>
           <ProductUrl
-            parentFunction={handleChangeProductUrl}
-            customMessage={customMessages.productUrl}
             errorVisibility={errorVisibilities.productUrl}
+            customMessage={customMessages.productUrl}
+            parentFunction={handleChangeProductUrl}
           />
           <Asin
-            visibility={asinVisibility}
-            parentFunction={handleChangeAsin}
-            customMessage={customMessages.asin}
             errorVisibility={errorVisibilities.asin}
+            customMessage={customMessages.asin}
+            parentFunction={handleChangeAsin}
             seeHowData={seeHowDialogData}
+            visibility={asinVisibility}
           />
         </Stack>
       </Container>
@@ -223,19 +178,17 @@ function App() {
         sx={{
           display: "flex",
           justifyContent: productData.justify,
-          top: "0px",
-          position: "relative",
           marginTop: "50px",
-          marginBottom: "60px",
+          marginBottom: "70px",
         }}
       >
         <Product
+          display={productData.display}
           title={productData.title}
           src={productData.src}
-          display={productData.display}
         />
       </Container>
-      <Form formLocked={formLocked} />
+      <Form formDisabled={formDisabled} />
     </>
   );
 }

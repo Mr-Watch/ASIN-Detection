@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import Input from "./Input.jsx";
 import SeeHowDialog from "./SeeHowDialog.jsx";
 import Stack from "@mui/material/Stack";
+import Input from "./Input.jsx";
 
 export default function Asin({
-  visibility,
+  errorVisibility,
   parentFunction,
   customMessage,
-  errorVisibility,
+  visibility,
   seeHowData,
 }) {
   function validateASIN(asin) {
@@ -15,12 +14,9 @@ export default function Asin({
   }
 
   function handleChild(message, data) {
-    if (message === "valid") {
-      parentFunction(message, data);
-    } else if (message === "invalid") {
-      parentFunction("invalid", data);
-    }
+    parentFunction(message, data);
   }
+
   return (
     <>
       <Stack
@@ -34,11 +30,11 @@ export default function Asin({
         <Input
           text="OR Try to find manually the<br />ASIN"
           message="This ASIN is invalid"
-          validateFunction={validateASIN}
-          componentVisibility={visibility}
+          validationFunction={validateASIN}
           parentFunction={handleChild}
           customMessage={customMessage}
           errorVisibility={errorVisibility}
+          componentVisibility={visibility}
         />
         <SeeHowDialog
           title={seeHowData.title}

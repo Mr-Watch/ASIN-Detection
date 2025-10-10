@@ -1,11 +1,11 @@
-import { useState, Fragment } from "react";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import { useState, Fragment } from "react";
+import Dialog from "@mui/material/Dialog";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -19,7 +19,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function SeeHowDialog({ title, body, visibility }) {
   const [open, setOpen] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -34,7 +33,7 @@ export default function SeeHowDialog({ title, body, visibility }) {
         style={{
           visibility: visibility,
           position: "relative",
-          top: "12px",
+          top: "20px",
           left: "-120px",
           color: "blue",
           width: "85px",
@@ -42,11 +41,7 @@ export default function SeeHowDialog({ title, body, visibility }) {
       >
         see how
       </a>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
+      <BootstrapDialog onClose={handleClose} open={open}>
         <DialogTitle sx={{ m: 0, p: 2 }}>{title}</DialogTitle>
         <IconButton
           aria-label="close"

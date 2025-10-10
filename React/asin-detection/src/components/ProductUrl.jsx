@@ -1,14 +1,9 @@
-import Container from "@mui/material/Container";
-import { styled } from "@mui/material/styles";
-import { spacing } from "@mui/system";
-import Stack from "@mui/material/Stack";
-import ErrorIcon from "@mui/icons-material/Error";
 import Input from "./Input.jsx";
 
 export default function ProductUrl({
+  errorVisibility,
   parentFunction,
   customMessage,
-  errorVisibility,
 }) {
   function validateURL(url) {
     return /^https?:\/\/www\.amazon\.com\/(?:[a-zA-Z0-9-%\s.]*\/)?dp\/[A-Z0-9]{10}(?:[\/?].*)?$/gm.test(
@@ -17,11 +12,7 @@ export default function ProductUrl({
   }
 
   function handleChild(message, data) {
-    if (message === "valid") {
-      parentFunction(message, data);
-    } else if (message === "invalid") {
-      parentFunction("invalid", data);
-    }
+    parentFunction(message, data);
   }
 
   return (
@@ -29,7 +20,7 @@ export default function ProductUrl({
       <Input
         text="Paste here the URL of the product that you choose!"
         message="This url is not valid"
-        validateFunction={validateURL}
+        validationFunction={validateURL}
         parentFunction={handleChild}
         customMessage={customMessage}
         errorVisibility={errorVisibility}

@@ -1,15 +1,10 @@
-import { useState } from "react";
 import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 
-export default function Form({ formLocked }) {
+export default function Form({ formDisabled }) {
   const Img = styled("img")({
-    margin: "auto",
-    display: "block",
-    maxHeight: "50px",
+    height: "50px",
     marginBottom: "20px",
   });
 
@@ -32,6 +27,7 @@ export default function Form({ formLocked }) {
           maxWidth: "100% !important",
           backgroundColor: "#ffffff",
           borderTop: "solid 3px #e0e1e1",
+          paddingTop: "30px",
         }}
       >
         <div id="textarea-container">
@@ -46,15 +42,13 @@ export default function Form({ formLocked }) {
 
           <textarea
             name="product from search"
-            id="product-from-search"
             placeholder="It was by far the most well rated"
-            disabled={formLocked}
+            disabled={formDisabled}
           ></textarea>
           <textarea
             name="product details attention"
-            id="product-details-attention"
             placeholder="It is very descriptive"
-            disabled={formLocked}
+            disabled={formDisabled}
           ></textarea>
         </div>
       </Container>
@@ -67,17 +61,16 @@ export default function Form({ formLocked }) {
         }}
       >
         <Button
-          variant="contained"
           sx={{
             maxWidth: "500px",
             margin: "50px",
             marginTop: "150px",
-            bgcolor: "#f6c506",
+            backgroundColor: "#f6c506",
             color: "black",
             fontWeight: "bold",
           }}
           fullWidth
-          disabled={formLocked}
+          disabled={formDisabled}
           onClick={handleSubmit}
         >
           NEXT

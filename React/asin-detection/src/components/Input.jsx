@@ -1,46 +1,47 @@
+import { useEffect, useRef, useState } from "react";
+import ErrorIcon from "@mui/icons-material/Error";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
-import ErrorIcon from "@mui/icons-material/Error";
-import { useEffect, useRef, useState } from "react";
 
 export default function Input({
-  text,
-  message,
-  validateFunction,
-  parentFunction,
-  customMessage,
+  validationFunction,
   componentVisibility,
   errorVisibility,
+  parentFunction,
+  customMessage,
+  message,
+  text,
 }) {
-  const [value, setValue] = useState("");
-  const [_message, setMessage] = useState("");
-  const [_errorVisibility, setVisibility] = useState("visible");
+  const [internalInputValue, setInternalInputValue] = useState("");
+  const [internalMessage, setInternalMessage] = useState("");
+  const [internalErrorVisibility, setInternalErrorVisibility] =
+    useState("hidden");
   const inputRef = useRef(null);
 
-  function handleValue(e) {
-    setValue(e.target.value);
+  function handleInternalInputValue(event) {
+    setInternalInputValue(event.target.value);
   }
 
   function validateInput() {
-    let validity = validateFunction(inputRef.current.value);
+    let validity = validationFunction(inputRef.current.value);
     if (inputRef.current.value === "") {
       inputRef.current.setCustomValidity("");
-      setMessage(message);
-      setVisibility("hidden");
-      parentFunction("invalid", value);
+      setInternalMessage(message);
+      setInternalErrorVisibility("hidden");
+      parentFunction("invalid", internalInputValue);
     } else if (validity) {
       inputRef.current.setCustomValidity("");
-      setVisibility("hidden");
-      parentFunction("valid", value);
+      setInternalErrorVisibility("hidden");
+      parentFunction("valid", internalInputValue);
     } else {
-      setMessage(message);
-      setVisibility("visible");
+      setInternalMessage(message);
+      setInternalErrorVisibility("visible");
       inputRef.current.setCustomValidity(message);
       parentFunction("invalid");
     }
   }
 
-  useEffect(validateInput, [value]);
+  useEffect(validateInput, [internalInputValue]);
 
   return (
     <>
@@ -54,26 +55,26 @@ export default function Input({
           type="text"
           name={text}
           aria-label={text}
-          value={value}
-          onChange={handleValue}
+          value={internalInputValue}
+          onChange={handleInternalInputValue}
         />
         <Stack
           direction="row"
-          spacing={2}
+          spacing={1}
           sx={{
-            paddingTop: 4,
+            paddingTop: "20px",
             alignItems: "center",
             visibility: {
               visibility:
                 errorVisibility === "visible"
                   ? errorVisibility
-                  : _errorVisibility,
+                  : internalErrorVisibility,
             },
           }}
         >
-          <ErrorIcon sx={{ fontSize: 50, color: "#fa0101" }} />
+          <ErrorIcon sx={{ fontSize: "50px", color: "#fa0101" }} />
           <p style={{ color: "#fa0101" }}>
-            {customMessage !== undefined ? customMessage : _message}
+            {customMessage !== undefined ? customMessage : internalMessage}
           </p>
         </Stack>
       </Container>

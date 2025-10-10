@@ -1,12 +1,10 @@
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function Product({ title, src, display }) {
   const Img = styled("img")({
-    margin: "auto",
-    display: "block",
     maxWidth: "250px",
     maxHeight: "250px",
   });
@@ -15,8 +13,6 @@ export default function Product({ title, src, display }) {
     <>
       <Stack
         direction="row"
-        spacing={2}
-        maxWidth="sm"
         sx={{
           justifyContent: "center",
           alignItems: "center",

@@ -1,5 +1,5 @@
-import Stack from "@mui/material/Stack";
 import InfoIcon from "@mui/icons-material/Info";
+import Stack from "@mui/material/Stack";
 
 export default function Info({ text, iconColor, backgroundColor }) {
   return (
